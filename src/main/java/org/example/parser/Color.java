@@ -5,24 +5,27 @@ class Color {
     private int g;
     private int b;
 
-    private static final int MINIMAL = 128;
-    private static final int MAXIMAL = 255;
-
     public Color(int code){
+        r = (code >> 16) & 0xFF;
+        g = (code >> 8) & 0xFF;
+        b = code & 0xFF;
+    }
+
+    public Color(int code, int minimum, int maximum){
         int delta = 0;
         r = (code >> 16) & 0xFF;
-        if(r < MINIMAL) delta = MINIMAL - r;
+        if(r < minimum) delta = minimum - r;
         g = (code >> 8) & 0xFF;
-        if(g < MINIMAL) delta = Math.max(MINIMAL - g, delta);
+        if(g < minimum) delta = Math.max(minimum - g, delta);
         b = code & 0xFF;
-        if(b < MINIMAL) delta = Math.max(MINIMAL - b, delta);
+        if(b < minimum) delta = Math.max(minimum - b, delta);
         r += delta;
         g += delta;
         b += delta;
         delta = 0;
-        if(r > MAXIMAL) delta = r - MAXIMAL;
-        if(g > MAXIMAL) delta = Math.max(g - MAXIMAL, delta);
-        if(b > MAXIMAL) delta = Math.max(b - MAXIMAL, delta);
+        if(r > maximum) delta = r - maximum;
+        if(g > maximum) delta = Math.max(g - maximum, delta);
+        if(b > maximum) delta = Math.max(b - maximum, delta);
         r -= delta;
         g -= delta;
         b -= delta;
